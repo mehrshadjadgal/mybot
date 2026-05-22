@@ -1,87 +1,18 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    font-family: 'Tahoma', sans-serif;
-    background: linear-gradient(135deg, #1e3a8a, #3b82f6);
-    color: white;
-    min-height: 100vh;
-    padding: 20px;
-}
-
-.container {
-    max-width: 800px;
-    margin: 0 auto;
-    text-align: center;
-}
-
-h1 {
-    font-size: 28px;
-    margin-bottom: 10px;
-    text-shadow: 0 2px 10px rgba(0,0,0,0.3);
-}
-
-.subtitle {
-    font-size: 18px;
-    margin-bottom: 30px;
-    opacity: 0.9;
-}
-
-.plans {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 15px;
-}
-
-.plan-card {
-    background: rgba(255,255,255,0.1);
-    backdrop-filter: blur(10px);
-    border-radius: 16px;
-    padding: 20px;
-    border: 2px solid rgba(255,255,255,0.2);
-    transition: all 0.3s;
-}
-
-.plan-card:hover {
-    transform: translateY(-8px);
-    border-color: #22c55e;
-    box-shadow: 0 15px 30px rgba(0,0,0,0.3);
-}
-
-.plan-card h2 {
-    font-size: 24px;
-    margin-bottom: 8px;
-}
-
-.price {
-    font-size: 22px;
-    font-weight: bold;
-    margin: 15px 0;
-    color: #fef08c;
-}
-
-.buy-btn {
-    background: #22c55e;
-    color: white;
-    border: none;
-    padding: 14px 30px;
-    border-radius: 12px;
-    font-size: 17px;
-    font-weight: bold;
-    cursor: pointer;
-    width: 100%;
-    margin-top: 10px;
-    transition: all 0.3s;
-}
-
-.buy-btn:hover {
-    background: #16a34a;
-    transform: scale(1.05);
-}
-
-.green {
-    background: #22c55e;
-}
+document.addEventListener('DOMContentLoaded', function() {
+    const buttons = document.querySelectorAll('.buy-btn');
+    
+    buttons.forEach(button => {
+        button.addEventListener('click', function() {
+            const planCard = this.parentElement;
+            const gig = planCard.querySelector('h2').textContent;
+            const price = planCard.querySelector('.price').textContent;
+            
+            const message = `✅ انتخاب شما:\n\nپلن: ${gig}\nقیمت: ${price}\n\nآیا برای خرید این پلن مطمئن هستید؟`;
+            
+            if (confirm(message)) {
+                alert('✅ سفارش شما ثبت شد! به زودی کانفیگ برایتان ارسال خواهد شد.');
+                // اینجا بعداً به ربات اطلاعات را می‌فرستیم
+            }
+        });
+    });
+});

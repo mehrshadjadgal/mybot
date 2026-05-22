@@ -4,40 +4,82 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>خرید سرویس استارلینک</title>
-    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            font-family: Tahoma, sans-serif;
+            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+            color: white;
+            padding: 15px;
+            margin: 0;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        .plans {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        .plan-card {
+            background: rgba(255,255,255,0.2);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+        }
+        .price {
+            font-size: 18px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        .buy-btn {
+            background: #22c55e;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 10px;
+            font-size: 16px;
+            width: 100%;
+            margin-top: 10px;
+            transition: all 0.3s ease;
+        }
+        .buy-btn:hover {
+            background: #16a34a;
+            transform: scale(1.08);
+            box-shadow: 0 5px 15px rgba(34, 197, 94, 0.5);
+        }
+        @media (max-width: 500px) {
+            .plans { grid-template-columns: 1fr; }
+        }
+    </style>
 </head>
 <body>
-    <div class="container">
+    <div class="header">
         <h1>🛒 خرید سرویس استارلینک</h1>
-        <p class="subtitle">پلن مورد نظر خود را انتخاب کنید</p>
-        
-        <div class="plans">
-            <div class="plan-card" data-plan="1">
-                <h2>۱ گیگ</h2>
-                <p class="price">۲۸۹ هزار تومان</p>
-                <button class="buy-btn green">انتخاب پلن</button>
-            </div>
-            
-            <div class="plan-card" data-plan="2">
-                <h2>۲ گیگ</h2>
-                <p class="price">۵۷۸ هزار تومان</p>
-                <button class="buy-btn green">انتخاب پلن</button>
-            </div>
-            
-            <div class="plan-card" data-plan="5">
-                <h2>۵ گیگ</h2>
-                <p class="price">۱,۴۴۵ هزار تومان</p>
-                <button class="buy-btn green">انتخاب پلن</button>
-            </div>
-            
-            <div class="plan-card" data-plan="10">
-                <h2>۱۰ گیگ</h2>
-                <p class="price">۲,۸۹۰ هزار تومان</p>
-                <button class="buy-btn green">انتخاب پلن</button>
-            </div>
+        <p>پلن مورد نظر خود را انتخاب کنید</p>
+    </div>
+    
+    <div class="plans">
+        <div class="plan-card">
+            <h2>۱ گیگ</h2>
+            <p class="price">۲۸۹ هزار تومان</p>
+            <button class="buy-btn">انتخاب پلن</button>
+        </div>
+        <div class="plan-card">
+            <h2>۲ گیگ</h2>
+            <p class="price">۵۷۸ هزار تومان</p>
+            <button class="buy-btn">انتخاب پلن</button>
+        </div>
+        <div class="plan-card">
+            <h2>۵ گیگ</h2>
+            <p class="price">۱,۴۴۵ هزار تومان</p>
+            <button class="buy-btn">انتخاب پلن</button>
+        </div>
+        <div class="plan-card">
+            <h2>۱۰ گیگ</h2>
+            <p class="price">۲,۸۹۰ هزار تومان</p>
+            <button class="buy-btn">انتخاب پلن</button>
         </div>
     </div>
-
-    <script src="script.js"></script>
 </body>
 </html>
