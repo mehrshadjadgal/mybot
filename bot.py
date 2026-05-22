@@ -50,17 +50,25 @@ def back_button():
 
 # ==================== منوی اصلی ====================
 def show_main_menu(chat_id):
-    markup = InlineKeyboardMarkup(row_width=2)
+    markup = InlineKeyboardMarkup(row_width=1)
+    # دکمه خرید در بالا و برجسته
+    markup.add(InlineKeyboardButton("🛒 خرید سرویس استارلینک", callback_data="buy"))
+    
+    markup.row_width = 2
     markup.add(
-        InlineKeyboardButton("🛰️ خرید سرویس استارلینک", callback_data="buy"),
         InlineKeyboardButton("📊 سرویس های من", callback_data="my_services"),
         InlineKeyboardButton("💡 آموزش استفاده", callback_data="tutorials"),
         InlineKeyboardButton("👥 دریافت کانفیگ رایگان", callback_data="referral"),
         InlineKeyboardButton("👨‍💻 تیکت پشتیبانی", callback_data="support")
     )
-    bot.send_message(chat_id, "✅ منوی اصلی:\n\nلطفاً گزینه مورد نظرت رو انتخاب کن:", reply_markup=markup)
+    
+    bot.send_message(chat_id, 
+        "👋 سلام دوست عزیز!\n\n"
+        "🔥 به ربات هوشمند فروش فیلترشکن خوش آمدی\n\n"
+        "💡 لطفاً از منوی زیر گزینه مورد نظرت رو انتخاب کن:", 
+        reply_markup=markup)
 
-# ==================== دستورات ادمین ====================
+# ==================== بقیه کد بدون هیچ تغییری ====================
 def set_admin_commands():
     commands = [
         BotCommand("start", "🔄 شروع / منوی اصلی"),
@@ -73,7 +81,6 @@ def set_admin_commands():
     ]
     bot.set_my_commands(commands, scope=BotCommandScopeChat(ADMIN_ID))
 
-# ==================== شروع ربات ====================
 @bot.message_handler(commands=['start'])
 def send_welcome(message):
     user_id = str(message.chat.id)
@@ -122,7 +129,6 @@ def handle_referral(referrer, new_user):
         save_all()
         bot.send_message(referrer, f"🎉 یک کاربر جدید با لینک شما وارد شد!\n🌟 ستاره‌های شما: {USERS[referrer]['stars']}")
 
-# ==================== Callback اصلی ====================
 @bot.callback_query_handler(func=lambda call: True)
 def callback_handler(call):
     data = call.data
@@ -214,7 +220,6 @@ def callback_handler(call):
         bot.send_message(chat_id, "👨‍💻 پیام خود را بنویسید:", reply_markup=back_button())
         bot.register_next_step_handler(call.message, handle_support_message)
 
-    # ==================== بخش حذف کانفیگ ====================
     elif data == "del_normal":
         if call.from_user.id != ADMIN_ID:
             bot.answer_callback_query(call.id, "فقط ادمین!")
@@ -235,7 +240,6 @@ def callback_handler(call):
         bot.send_message(chat_id, msg + "\n🔢 شماره کانفیگی که می‌خوای حذف کنی رو بفرست:")
         bot.register_next_step_handler_by_chat_id(chat_id, del_reward_step)
 
-    # ==================== بخش ویدیو آموزشی ====================
     elif data.startswith("add_tut_"):
         if call.from_user.id != ADMIN_ID:
             bot.answer_callback_query(call.id, "فقط ادمین!")
@@ -264,7 +268,7 @@ def callback_handler(call):
 
     bot.answer_callback_query(call.id)
 
-# ==================== رسید پرداخت و تیکت پشتیبانی ====================
+# ==================== بقیه توابع بدون تغییر ====================
 pending_orders = {}
 support_tickets = {}
 
@@ -308,8 +312,6 @@ def reply_to_support(message):
             else:
                 bot.send_message(user_id, "⚠️ کانفیگ این پلن تمام شده است.")
         pending_orders.pop(replied_id, None)
-
-# ==================== توابع ادمین ====================
 
 @bot.message_handler(commands=['addconfig'])
 def add_config(message):
@@ -359,8 +361,6 @@ def admin_stock(message):
         text += "\n"
     bot.send_message(message.chat.id, text if CONFIGS else "هیچ کانفیگی موجود نیست.")
 
-# ==================== بخش ویدیو آموزشی ====================
-
 @bot.message_handler(commands=['addvideo'])
 def admin_add_video(message):
     if message.chat.id != ADMIN_ID: return
@@ -404,7 +404,6 @@ def delete_tutorial_step(message, platform):
     except:
         bot.send_message(message.chat.id, "❌ لطفاً فقط عدد بفرست (مثلاً ۱).")
 
-# ==================== حذف کانفیگ ====================
 @bot.message_handler(commands=['delconfig'])
 def admin_del_config(message):
     if message.chat.id != ADMIN_ID: return
