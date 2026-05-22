@@ -133,6 +133,21 @@ def callback_handler(call):
         bot.delete_message(chat_id, call.message.message_id)
         show_main_menu(chat_id)
 
+    # ==================== اصلاح شده ====================
+    elif data == "check_membership":
+        try:
+            member = bot.get_chat_member(CHANNEL_USERNAME, chat_id)
+            is_member = member.status in ["member", "administrator", "creator"]
+        except:
+            is_member = False
+
+        if is_member:
+            bot.answer_callback_query(call.id, "✅ عضویت تأیید شد!", show_alert=True)
+            bot.send_message(chat_id, "✅ عضویت شما تأیید شد!\nبه ربات خوش آمدید 🔥")
+            show_main_menu(chat_id)
+        else:
+            bot.answer_callback_query(call.id, "❌ هنوز عضو کانال نشده‌اید!", show_alert=True)
+
     elif data == "buy":
         markup = InlineKeyboardMarkup(row_width=2)
         markup.add(
@@ -264,7 +279,7 @@ def callback_handler(call):
 
     bot.answer_callback_query(call.id)
 
-# ==================== رسید پرداخت و تیکت پشتیبانی ====================
+# ==================== بقیه توابع (دقیقاً مثل کد اصلیت بدون تغییر) ====================
 pending_orders = {}
 support_tickets = {}
 
@@ -359,8 +374,6 @@ def admin_stock(message):
         text += "\n"
     bot.send_message(message.chat.id, text if CONFIGS else "هیچ کانفیگی موجود نیست.")
 
-# ==================== بخش ویدیو آموزشی ====================
-
 @bot.message_handler(commands=['addvideo'])
 def admin_add_video(message):
     if message.chat.id != ADMIN_ID: return
@@ -404,7 +417,6 @@ def delete_tutorial_step(message, platform):
     except:
         bot.send_message(message.chat.id, "❌ لطفاً فقط عدد بفرست (مثلاً ۱).")
 
-# ==================== حذف کانفیگ ====================
 @bot.message_handler(commands=['delconfig'])
 def admin_del_config(message):
     if message.chat.id != ADMIN_ID: return
