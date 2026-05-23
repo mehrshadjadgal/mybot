@@ -155,7 +155,7 @@ def callback_handler(call):
             InlineKeyboardButton("💰 مبلغ", callback_data="ignore"),
             InlineKeyboardButton("🛍️ محصول", callback_data="ignore"),
             InlineKeyboardButton("💵 250,000 تومان", callback_data="buy_1"),
-            InlineKeyboardButton("🔋 2 گیگ", callback_data="buy_1"),
+            InlineKeyboardButton("🔋 1 گیگ", callback_data="buy_1"),
             InlineKeyboardButton("💵 500,000 تومان", callback_data="buy_2"),
             InlineKeyboardButton("🔋 2 گیگ", callback_data="buy_2"),
             InlineKeyboardButton("💵 1,250,000 تومان", callback_data="buy_5"),
