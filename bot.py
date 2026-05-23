@@ -154,15 +154,15 @@ def callback_handler(call):
         markup.add(
             InlineKeyboardButton("💰 مبلغ", callback_data="ignore"),
             InlineKeyboardButton("🛍️ محصول", callback_data="ignore"),
-            InlineKeyboardButton("💵 ۲۵۰ هزار تومان", callback_data="buy_1"),
+            InlineKeyboardButton("💵 250,000 تومان", callback_data="buy_1"),
             InlineKeyboardButton("🔋 ۱ گیگ", callback_data="buy_1"),
-            InlineKeyboardButton("💵 ۵۰۰ هزار تومان", callback_data="buy_2"),
+            InlineKeyboardButton("💵 500,000 تومان", callback_data="buy_2"),
             InlineKeyboardButton("🔋 ۲ گیگ", callback_data="buy_2"),
-            InlineKeyboardButton("💵 ۱,۲۵۰ هزار تومان", callback_data="buy_5"),
+            InlineKeyboardButton("💵 1,250,000 تومان", callback_data="buy_5"),
             InlineKeyboardButton("🔋 ۵ گیگ", callback_data="buy_5"),
-            InlineKeyboardButton("💵 ۲,۵۰۰ هزار تومان", callback_data="buy_10"),
+            InlineKeyboardButton("💵 2,500,000 تومان", callback_data="buy_10"),
             InlineKeyboardButton("🔋 ۱۰ گیگ", callback_data="buy_10"),
-            InlineKeyboardButton("💵 ۵,۰۰۰ هزار تومان", callback_data="buy_20"),
+            InlineKeyboardButton("💵 5,000,000 تومان", callback_data="buy_20"),
             InlineKeyboardButton("🔋 ۲۰ گیگ", callback_data="buy_20")
         )
         bot.send_message(chat_id, "🛒 خرید سرویس استارلینک\n\nلطفاً پلن مورد نظر را انتخاب کنید:", reply_markup=markup)
@@ -170,7 +170,7 @@ def callback_handler(call):
     elif data.startswith("buy_"):
         plan_key = data.split("_")[1]
         plans = {"1": "۱ گیگ", "2": "۲ گیگ", "5": "۵ گیگ", "10": "۱۰ گیگ", "20": "۲۰ گیگ"}
-        prices = {"1": "۲۵۰ هزار تومان", "2": "۵۰۰ هزار تومان", "5": "۱,۲۵۰ هزار تومان", "10": "۲,۵۰۰ هزار تومان", "20": "۵,۰۰۰ هزار تومان"}
+        prices = {"1": "250,000 تومان", "2": "500,000 تومان", "5": "1,250,000 تومان", "10": "2,500,000 تومان", "20": "5,000,000 تومان"}
         plan_name = plans.get(plan_key, "نامشخص")
         price = prices.get(plan_key, "نامشخص")
         
