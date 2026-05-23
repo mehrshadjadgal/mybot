@@ -45,14 +45,15 @@ print(f"✅ ربات لود شد | کانفیگ: {len(CONFIGS)} | ویدیو: {s
 # ==================== دکمه بازگشت ====================
 def back_button():
     markup = InlineKeyboardMarkup(row_width=1)
-    markup.add(InlineKeyboardButton("🏡 بازگشت به منوی اصلی", callback_data="main_menu"))
+    markup.add(InlineKeyboardButton("🏠 بازگشت به منوی اصلی", callback_data="main_menu"))
     return markup
 
 # ==================== منوی اصلی ====================
 def show_main_menu(chat_id):
-    markup = InlineKeyboardMarkup(row_width=2)
+    markup = InlineKeyboardMarkup(row_width=1)
+    markup.add(InlineKeyboardButton("🛒 خرید سرویس استارلینک", callback_data="buy"))
+    markup.row_width = 2
     markup.add(
-        InlineKeyboardButton("🛰️ خرید سرویس استارلینک", callback_data="buy"),
         InlineKeyboardButton("📊 سرویس های من", callback_data="my_services"),
         InlineKeyboardButton("💡 آموزش استفاده", callback_data="tutorials"),
         InlineKeyboardButton("👥 دریافت کانفیگ رایگان", callback_data="referral"),
@@ -70,6 +71,7 @@ def set_admin_commands():
         BotCommand("delvideo", "🗑 حذف ویدیو آموزش"),
         BotCommand("addreward", "🎁 گذاشتن کانفیگ رایگان"),
         BotCommand("delconfig", "❌ حذف کانفیگ"),
+        BotCommand("broadcast", "📢 ارسال پیام به همه کاربران"),
     ]
     bot.set_my_commands(commands, scope=BotCommandScopeChat(ADMIN_ID))
 
@@ -133,7 +135,6 @@ def callback_handler(call):
         bot.delete_message(chat_id, call.message.message_id)
         show_main_menu(chat_id)
 
-    # ==================== اصلاح شده ====================
     elif data == "check_membership":
         try:
             member = bot.get_chat_member(CHANNEL_USERNAME, chat_id)
@@ -151,22 +152,31 @@ def callback_handler(call):
     elif data == "buy":
         markup = InlineKeyboardMarkup(row_width=2)
         markup.add(
-            InlineKeyboardButton("🛍️ 1 گیگ", callback_data="buy_1"),
-            InlineKeyboardButton("💸 289 هزار تومان", callback_data="buy_1"),
-            InlineKeyboardButton("🛍️ 2 گیگ", callback_data="buy_3"),
-            InlineKeyboardButton("💸 578 هزار تومان", callback_data="buy_3"),
-            InlineKeyboardButton("🛍️ 5 گیگ", callback_data="buy_6"),
-            InlineKeyboardButton("💸 1,445 هزار تومان", callback_data="buy_6"),
-            InlineKeyboardButton("🛍️ 10 گیگ", callback_data="buy_12"),
-            InlineKeyboardButton("💸 2,890 هزار تومان", callback_data="buy_12")
+            InlineKeyboardButton("💰 مبلغ", callback_data="ignore"),
+            InlineKeyboardButton("🛍️ محصول", callback_data="ignore"),
+            InlineKeyboardButton("💵 ۲۵۰ هزار تومان", callback_data="buy_1"),
+            InlineKeyboardButton("🔋 ۱ گیگ", callback_data="buy_1"),
+            InlineKeyboardButton("💵 ۵۰۰ هزار تومان", callback_data="buy_2"),
+            InlineKeyboardButton("🔋 ۲ گیگ", callback_data="buy_2"),
+            InlineKeyboardButton("💵 ۱,۲۵۰ هزار تومان", callback_data="buy_5"),
+            InlineKeyboardButton("🔋 ۵ گیگ", callback_data="buy_5"),
+            InlineKeyboardButton("💵 ۲,۵۰۰ هزار تومان", callback_data="buy_10"),
+            InlineKeyboardButton("🔋 ۱۰ گیگ", callback_data="buy_10"),
+            InlineKeyboardButton("💵 ۵,۰۰۰ هزار تومان", callback_data="buy_20"),
+            InlineKeyboardButton("🔋 ۲۰ گیگ", callback_data="buy_20")
         )
         bot.send_message(chat_id, "🛒 خرید سرویس استارلینک\n\nلطفاً پلن مورد نظر را انتخاب کنید:", reply_markup=markup)
 
     elif data.startswith("buy_"):
         plan_key = data.split("_")[1]
-        plans = {"1": "1گیگ", "3": "2گیگ", "6": "5گیگ", "12": "10گیگ"}
+        plans = {"1": "۱ گیگ", "2": "۲ گیگ", "5": "۵ گیگ", "10": "۱۰ گیگ", "20": "۲۰ گیگ"}
+        prices = {"1": "۲۵۰ هزار تومان", "2": "۵۰۰ هزار تومان", "5": "۱,۲۵۰ هزار تومان", "10": "۲,۵۰۰ هزار تومان", "20": "۵,۰۰۰ هزار تومان"}
         plan_name = plans.get(plan_key, "نامشخص")
+        price = prices.get(plan_key, "نامشخص")
+        
         msg = f"""✅ پلن انتخابی: {plan_name}
+
+💰 قیمت: {price}
 
 💳 شماره کارت:
 `{CARD_NUMBER}`
@@ -177,6 +187,7 @@ def callback_handler(call):
         bot.send_message(chat_id, msg, parse_mode="Markdown", reply_markup=back_button())
         bot.register_next_step_handler(call.message, lambda m: handle_receipt(m, plan_name))
 
+    # ==================== بقیه کد بدون تغییر ====================
     elif data == "my_services":
         bot.send_message(chat_id, "📊 **سرویس‌های من**\n\nدر حال حاضر هیچ سرویسی فعال نداری.\nپس از خرید، اینجا نمایش داده می‌شود.", reply_markup=back_button())
 
@@ -277,9 +288,32 @@ def callback_handler(call):
         bot.send_message(chat_id, msg + "\n\n🔢 شماره ویدیویی که می‌خوای حذف کنی رو بفرست:")
         bot.register_next_step_handler_by_chat_id(chat_id, lambda m: delete_tutorial_step(m, platform))
 
+    elif data == "ignore":
+        bot.answer_callback_query(call.id)
+
     bot.answer_callback_query(call.id)
 
-# ==================== بقیه توابع (دقیقاً مثل کد اصلیت بدون تغییر) ====================
+# ==================== ارسال پیام به همه کاربران ====================
+@bot.message_handler(commands=['broadcast'])
+def broadcast(message):
+    if message.chat.id != ADMIN_ID:
+        return
+    bot.send_message(ADMIN_ID, "📢 پیام خود را بنویسید. این پیام به **همه کاربران** ارسال خواهد شد:")
+    bot.register_next_step_handler(message, send_broadcast_to_all)
+
+def send_broadcast_to_all(message):
+    if message.chat.id != ADMIN_ID:
+        return
+    count = 0
+    for user_id in list(USERS.keys()):
+        try:
+            bot.send_message(int(user_id), f"📢 پیام از مدیریت:\n\n{message.text}")
+            count += 1
+        except:
+            pass
+    bot.send_message(ADMIN_ID, f"✅ پیام با موفقیت به {count} کاربر ارسال شد.")
+
+# ==================== بقیه توابع بدون هیچ تغییری ====================
 pending_orders = {}
 support_tickets = {}
 
