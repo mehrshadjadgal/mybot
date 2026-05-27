@@ -51,7 +51,7 @@ def back_button():
 # ==================== منوی اصلی ====================
 def show_main_menu(chat_id):
     markup = InlineKeyboardMarkup(row_width=1)
-    markup.add(InlineKeyboardButton("🛒 خرید سرویس استارلینک", callback_data="buy"))
+    markup.add(InlineKeyboardButton("خرید سرویس نت جدید🔥", callback_data="buy"))
     markup.row_width = 2
     markup.add(
         InlineKeyboardButton("📊 سرویس های من", callback_data="my_services"),
@@ -154,15 +154,15 @@ def callback_handler(call):
         markup.add(
             InlineKeyboardButton("💰 مبلغ", callback_data="ignore"),
             InlineKeyboardButton("🛍️ محصول", callback_data="ignore"),
-            InlineKeyboardButton("💵 250,000 تومان", callback_data="buy_1"),
+            InlineKeyboardButton("💵 50,000 تومان", callback_data="buy_1"),
             InlineKeyboardButton("🔋 1 گیگ", callback_data="buy_1"),
-            InlineKeyboardButton("💵 500,000 تومان", callback_data="buy_2"),
+            InlineKeyboardButton("💵 100,000 تومان", callback_data="buy_2"),
             InlineKeyboardButton("🔋 2 گیگ", callback_data="buy_2"),
-            InlineKeyboardButton("💵 1,250,000 تومان", callback_data="buy_5"),
+            InlineKeyboardButton("💵 250,000 تومان", callback_data="buy_5"),
             InlineKeyboardButton("🔋 5 گیگ", callback_data="buy_5"),
-            InlineKeyboardButton("💵 2,500,000 تومان", callback_data="buy_10"),
+            InlineKeyboardButton("💵 500,000 تومان", callback_data="buy_10"),
             InlineKeyboardButton("🔋 10 گیگ", callback_data="buy_10"),
-            InlineKeyboardButton("💵 5,000,000 تومان", callback_data="buy_20"),
+            InlineKeyboardButton("💵 1,000,000 تومان", callback_data="buy_20"),
             InlineKeyboardButton("🔋 20 گیگ", callback_data="buy_20")
         )
         bot.send_message(chat_id, "🛒 خرید سرویس استارلینک\n\nلطفاً پلن مورد نظر را انتخاب کنید:", reply_markup=markup)
@@ -170,7 +170,7 @@ def callback_handler(call):
     elif data.startswith("buy_"):
         plan_key = data.split("_")[1]
         plans = {"1": "1گیگ", "2": "2گیگ", "5": "5گیگ", "10": "10گیگ", "20": "20گیگ"}
-        prices = {"1": "250,000 تومان", "2": "500,000 تومان", "5": "1,250,000 تومان", "10": "2,500,000 تومان", "20": "5,000,000 تومان"}
+        prices = {"1": "50,000 تومان", "2": "100,000 تومان", "5": "250,000 تومان", "10": "500,000 تومان", "20": "1,000,000 تومان"}
         plan_name = plans.get(plan_key, "نامشخص")
         price = prices.get(plan_key, "نامشخص")
         
