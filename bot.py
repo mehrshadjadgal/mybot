@@ -165,7 +165,7 @@ def callback_handler(call):
             InlineKeyboardButton("💵 1,000,000 تومان", callback_data="buy_20"),
             InlineKeyboardButton("🔋 20 گیگ", callback_data="buy_20")
         )
-        bot.send_message(chat_id, "🛒 خرید سرویس استارلینک\n\nلطفاً پلن مورد نظر را انتخاب کنید:", reply_markup=markup)
+        bot.send_message(chat_id, "🛒 🔥نت جدید\n\nلطفاً پلن مورد نظر را انتخاب کنید:", reply_markup=markup)
 
     elif data.startswith("buy_"):
         plan_key = data.split("_")[1]
